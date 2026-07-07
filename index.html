@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Directorio de Células Mujeres SOS · RFC</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap');
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --gold: #c9a84c;
+    --gold-light: #e8c97a;
+    --white: #ffffff;
+    --off-white: #f0ede8;
+    --dark: #0a0a0a;
+    --dark-mid: #111111;
+    --card-bg: #141414;
+    --line: rgba(255,255,255,0.08);
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: radial-gradient(ellipse 900px 600px at 50% -10%, rgba(201,168,76,0.08), transparent),
+                var(--dark);
+    color: var(--white);
+    font-family: 'Inter', sans-serif;
+    min-height: 100vh;
+  }
+
+  .wrapper {
+    max-width: 880px;
+    margin: 0 auto;
+    padding: 56px 24px 48px;
+  }
+
+  /* ── HEADER ── */
+  header {
+    text-align: center;
+    animation: fadeDown 0.8s ease both;
+  }
+  header img {
+    width: 72px;
+    height: auto;
+    margin-bottom: 18px;
+    filter: drop-shadow(0 0 20px rgba(201,168,76,0.25));
+  }
+  .eyebrow {
+    font-size: 0.68rem;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: rgba(201,168,76,0.7);
+    margin-bottom: 10px;
+  }
+  h1 {
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    font-size: clamp(1.6rem, 4vw, 2.3rem);
+    color: var(--gold-light);
+    line-height: 1.25;
+  }
+  .subtitle {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    color: var(--off-white);
+    opacity: 0.75;
+    margin-top: 10px;
+    font-size: clamp(0.9rem, 2vw, 1.05rem);
+  }
+
+  .divider {
+    width: 80px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    margin: 32px auto;
+  }
+
+  /* ── SELECTOR LABEL ── */
+  .section-label {
+    text-align: center;
+    font-size: 0.7rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: rgba(201,168,76,0.7);
+    margin-bottom: 20px;
+  }
+
+  /* ── CHIP GRID ── */
+  .chips {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    max-width: 720px;
+    margin: 0 auto;
+    animation: fadeUp 0.8s ease 0.15s both;
+  }
+
+  .chip {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.82rem;
+    font-weight: 500;
+    letter-spacing: 0.01em;
+    color: var(--white);
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 999px;
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: transform 0.2s, background 0.2s, border-color 0.2s, color 0.2s, box-shadow 0.2s;
+  }
+  .chip:hover {
+    transform: translateY(-2px);
+    border-color: var(--gold);
+    background: rgba(201,168,76,0.1);
+    color: var(--gold-light);
+  }
+  .chip:focus-visible {
+    outline: 2px solid var(--gold-light);
+    outline-offset: 2px;
+  }
+  .chip.active {
+    background: var(--gold);
+    border-color: var(--gold);
+    color: var(--dark);
+    box-shadow: 0 0 22px rgba(201,168,76,0.35);
+  }
+
+  /* ── DETAIL CARD ── */
+  .card-stage {
+    max-width: 560px;
+    margin: 48px auto 0;
+    position: relative;
+  }
+
+  .tab {
+    position: absolute;
+    top: -18px;
+    left: 28px;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: var(--gold);
+    color: var(--dark);
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    font-size: 1.05rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.4);
+    z-index: 2;
+    transition: transform 0.2s;
+  }
+
+  .card {
+    background: linear-gradient(160deg, var(--card-bg), var(--dark-mid));
+    border: 1px solid rgba(201,168,76,0.25);
+    border-radius: 18px;
+    padding: 40px 32px 32px;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.35);
+    transition: opacity 0.22s ease, transform 0.22s ease;
+  }
+  .card.swap {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+
+  .card h2 {
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    font-size: 1.5rem;
+    letter-spacing: 0.02em;
+    color: var(--gold-light);
+    margin-bottom: 22px;
+  }
+
+  .row {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--line);
+  }
+  .row:last-of-type { border-bottom: none; }
+
+  .row .icon {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: rgba(201,168,76,0.12);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.9rem;
+    flex-shrink: 0;
+  }
+
+  .row .text {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+  .row .label {
+    font-size: 0.63rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.4);
+  }
+  .row .value {
+    font-size: 0.94rem;
+    color: var(--off-white);
+    line-height: 1.5;
+  }
+  .row .value a {
+    color: var(--gold-light);
+    text-decoration: none;
+    border-bottom: 1px solid rgba(232,201,122,0.35);
+  }
+  .row .value a:hover { border-bottom-color: var(--gold-light); }
+
+  .cta {
+    margin-top: 24px;
+    text-align: center;
+  }
+  .cta a {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.82rem;
+    letter-spacing: 0.04em;
+    color: var(--gold-light);
+    text-decoration: none;
+    border: 1px solid var(--gold);
+    border-radius: 999px;
+    padding: 10px 22px;
+    transition: background 0.2s, color 0.2s;
+  }
+  .cta a:hover {
+    background: var(--gold);
+    color: var(--dark);
+  }
+  .cta .muted {
+    font-size: 0.8rem;
+    color: rgba(255,255,255,0.35);
+    font-style: italic;
+  }
+
+  /* ── FOOTER ── */
+  .footer {
+    margin-top: 56px;
+    text-align: center;
+  }
+  .footer p {
+    font-size: 0.72rem;
+    color: rgba(255,255,255,0.25);
+    font-style: italic;
+    line-height: 1.8;
+  }
+  .footer strong {
+    color: rgba(201,168,76,0.5);
+    font-style: normal;
+  }
+
+  @keyframes fadeDown {
+    from { opacity: 0; transform: translateY(-18px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(18px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+  }
+
+  @media (max-width: 480px) {
+    .card { padding: 32px 22px 26px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="wrapper">
+
+  <header>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAN8AAADiCAMAAAD5w+JtAAAAilBMVEX///8AAAD5+fkjIyOenp6wsLC1tbX8/Pz09PS4uLjw8PDQ0NDb29uZmZnh4eG+vr6GhoaTk5PJycl9fX3o6OhAQEBJSUmoqKiioqLV1dXc3NxhYWFsbGxUVFTDw8Pr6+sZGRlzc3MuLi5RUVEPDw+Dg4NeXl45OTlFRUUpKSkhISF4eHg7OzsUFBTD2chWAAAJqElEQVR4nO2aaZ+qPA+HKYot++ICCG7g7sz3/3pP2oKCgKPjcuZ+frleHMelnP5JmqQpioIgCIIgCIIgCIIgCIIgCIIgCIIgCIIgCIIgCIIgCIIgCIIgCIIgCIIgCIIgCIL8nxN4ntnxlRG7fW8IePbAHH10Vi/DIoRoLZ8zd9gjdZLwv6fRWLfqC1LSykRT/8Ekn2BPWvS541LPbuXb/b7tp4fyk7X9X1K4Ik1900Ldtx9XPqWmty4khp+d4xPYpKGP+oXldNr4uV4oHzufm+IzuKShT53Jj6L2EXoRc9zPTPA5HNLQt8ikgToDpXqSQ/ofmeFTsHVD32gp3q9uDdPkGP/9E3wKSifkSh9l0nrD2yPn/4UoQ4vQWdFHlfE98s7LVn/7JJ9BhE5vV7WfXFrbn0bSMuxO3z3HJxBOlii9ij5pljW7Y7Ssbg7NDPJXmPL5ZVSt6GPSKPN7hhfjvPdO8vewI5/eQqnqk945u+8CRYz5q3lehE5TqeorkqF15xVyIh38T7IqRVX0ySWV3nsJ87Hb8VHs89q56Fs86nC7x+7HB5lf1tlFn/+ov4XyhhhvmuTvEQvtIDdxF30i4JDg/ssYf7SKYd98WkX9fNYXy4T2yIXkRuPrHXN8hjJ0Cs76pHtuHrlQUWf/sZbMqeZUZ32TR90T9hpS3+D1c3wCERUuBXSpT5VzfayzIjcbp1dP8RlE6Mwv7wt9A0u8HB+72IMZ8wPI0FkpoAt9ulxLN7e1Tfp8zJIp1BdZc0TVf1xvs+V1Ci/1yfDy4JZ8UEQqS8QltknjH4e8l0kjhhT63K2U+djlAhhiw+tQJ3Cl2NAglFJNAyOa0ecL72LDXu+Llfq+xMtP99+wXNtbzWbJRuPzX8gqiC5pApsqsu0TVc2ifqbEmftQJH4NkVxitTVS+qcMhTf244YVrWrHEfmIVzB8Kc8T1YMgQ6gyiQPY/O9j8/APkmIgZkXrIaDMD4dbqdpwvTFpYjDp6+mRbEEo+GhuuZB60rniLj9etols/H1dDRf6QvnSUitbYcrrud3Jj9zYchxnGg/8RPx6yEQ8YmSoKrkm9MUjwhaEMWX66bJNbYRO+bEU1l+26XNCENJLQ7PZkQmOokTnzuBu5T+gaGUp7ngfK+4x6zpRfBdiu91srdywH2xgs43LOlIaz31CNjg8lS9nqEI/nQg3pIjlV9TXX03faLCovmV14w7PW6y/QNRVSNXj56LlFwXW1YnD4eFq542I0Llv+6bMf+KU81ZzYsu7iZe3+u1s8llE1blubSSU9pMRsbtZRA/13kWv/pbl+ZXtF3Hof+gMjR26516vP7tbu/wWVTZ69tViXVVavaqj+9usK9+8ARE6O3ahpT5RKnedaSqylL5kCa62mgB4buWrkwXh6nIoVR1RQO3X2/TUEToF5f5PNne72xOnqj/y5nfN1DxZ+P6soizbrjytuZw39fvyCjpDp6DMD1QcdY47r3KsbC7orD5Lw14Wqta7PPU11+pKmjxKiZFB9qquhgidu86vz/0XefO7fsYd8Jzt0qvFLDrZXuhOFzV/NP3m8kvELWTpy05mnB/y2lmf2It3bpDmFRdIyfKqDtfa+sJGm9cs+iM+p1n0orY+690O+xd94ryscwPvXR6YSMiEW5JNLxutrciFVNFDWhtSXI1q4kkTx3h90ZbLyXdz6V9ntxbgrjz1VLfSKuD2OxUcLYF7p67luLQaxnh3e6QswEX5Mb+uOJPiJgDCjwcvcNHhLZtIivhZxKGOCkYtfY2N5eVGclAucpwu+6n8Ar5aXsDnPqvzcMLjt+vIKM33i2oq1kGvJX08iOh1HvTBDTQZ+ob6QB6XpPDrZmshKPKBU7qpKHds3jSdia7OQhhsHTIplfI7Qkx+3h1C4ZrpXM33JBCOkop7Dpf6YieecPXfygzI72g+X+CTb77mdJLJyCKj1pyJuAJvJgpPbdmU/5ebOckprwd6pnD4GckZj16RuN++nJXH/x70uCHDXz8K1dZTuIdmLJyJJvWQDIsIAdOFTT21RCf8S1gFtM6IBvnbSrg5oSQU3V/DIr0JcZeidNjyUDcmPS4zIUc+v0A5Ln8bdr5eZT+Vz8PJLjXLlhxT2B7NuOV4YhnxHGGvScb9FfxU5UbiFYOnZgTW5YEcqVigGZjrwL1dnv6uiRXd9zxDG1r/Z2xxWEbSCP6ORB2eR40uaAyJXyPJOcFD0N3syMglsPK4Eu6eeyKnzGc+U3aiHPIJ2PJLPHUSyjIghMDkwkr1xG+DMQx/7wk+PcdPpTxSby73CLzLJ8PzF+JBEp+SXBE2kpP3xaH3mofLKCS8X2AqydYjuvBTChvk9JssMvhFca4G6+6LjN+8x6g+H1KcUeeNH21FE353TqQWWe4j8E6HRwnX40llQkwRiU88cJ5I8FXUqxERB6cp+EAyIjOPG3dN5pY06fZ2cn65PtnAv06Y6lLWpRHZy+wW8NaEzwWAd7LZgddvBxtW34TMPfBKkFNe5TTZwOojwwh0WWCtebZPQZkmv7fffvh0pU9uha96s05ZaRgJnxXlzghhZSgql2+Vi/0+fJPVyNNIH6JT6FNHrElFJLu+yfulCeXLeFUo28nmDQve3We70lc83lrfLYaXsnsuEr1BZinooLw+Gipgx+HE4QJ4vSKbalbZnHHlvZnzXZEB4RP+NbjZu3dir+Van8KEi9Y2uumy8nuPJAaPIRsq4uqOTokVQMIThmB5Uj63UA6oGsgoI9R8/anziYa+4tmmfWUC9ULYGYP/TsWOa0ZmDES67w4ST9CiT/T+qj7qXoVwjeyKOMNDJPtLjdAGbfoUJlo2UC13DVpBYXJ+N+cqA23KYiVYBCNz4cBWTzUVR4Nly/oW0wPVVPumMxhMR4qrOI6lGryGN8EJ4jB+a4hp1QfxQbYrVtemK4FkV6+Kx9rCHytbKJa3YNUodgnzo7GqpO7GTLdxEno+mwXaPCYjfeyx/hLGHMFFvH5r2/lldOiDG7uSRcY49TWt+TW1SVLteuS+kU3iVbJ3E9AXWtvxwB5CjsipaW4no8Sxc+VkDILN2HaHhI0ngWJOviCLenc+b/pLOvWBhKB4OLu9LzraV/OkR0e2GUZ2aPpW6rnWZuoPFhBjg9yezgcjO15tlMgI4s3UM6cnxzb7Sj/2Y01jnvXONnfxXE/naWus28O0o5Ew2J0t+Gefwwb34fyQjlqn/2c1IQiCIAiCIAiCIAiCIAiCIAiCIAiCIAiCIAiCIAiCIAiCIAiCIAiCIAiCIAiCIAiCIAiCIAiCIAiCIDf4H/0SfHr6IMj+AAAAAElFTkSuQmCC" alt="Restauración Familiar Cristiana A.R." />
+    <p class="eyebrow">Restauración Familiar Cristiana A.R.</p>
+    <h1>Directorio de Células<br/>Mujeres SOS</h1>
+    <p class="subtitle">Un lugar para crecer, conectar y ser familia</p>
+  </header>
+
+  <div class="divider"></div>
+
+  <p class="section-label">Selecciona una célula</p>
+  <div class="chips" id="chips" role="listbox" aria-label="Lista de células de mujeres"></div>
+
+  <div class="card-stage">
+    <div class="tab" id="tab">F</div>
+    <div class="card" id="card" aria-live="polite"></div>
+  </div>
+
+  <div class="footer">
+    <div class="divider" style="margin-bottom:20px;"></div>
+    <p>
+      <strong>Restauración Familiar Cristiana A.R.</strong><br/>
+      Directorio de Células Mujeres SOS
+    </p>
+  </div>
+
+</div>
+
+<script>
+  const celulas = [
+  {
+    "nombre": "Florida",
+    "responsable": "Mayra Tejeda",
+    "direccion": "Calle Florida #48, Granjas Banthi, 3ra. Sección",
+    "dia": "Martes",
+    "hora": "9:30 am",
+    "telefono": "427 122 4549",
+    "tel_href": "+524271224549",
+    "maps": "https://maps.app.goo.gl/oZgepe8SfLZRwPzj8?g_st=aw"
+  },
+  {
+    "nombre": "El Chaparro",
+    "responsable": "Susy González",
+    "direccion": "El Chaparro #15, Granjas Banthi, 1ra. Sección",
+    "dia": "Martes",
+    "hora": "5:00 pm",
+    "telefono": "427 122 6947",
+    "tel_href": "+524271226947",
+    "maps": "https://maps.app.goo.gl/qj96d9okULuh5CEZ6?g_st=aw"
+  },
+  {
+    "nombre": "Comevi Banthi",
+    "responsable": "Triny Orozco",
+    "direccion": "Coyoles #60, Comevi Banthi",
+    "dia": "Martes",
+    "hora": "5:00 pm",
+    "telefono": "427 273 5124",
+    "tel_href": "+524272735124",
+    "maps": "https://maps.app.goo.gl/FHs9vWBjckdvakJZ7"
+  },
+  {
+    "nombre": "Haciendas",
+    "responsable": "Mayra Tejeda",
+    "direccion": "Calle Iturbide #513-2, Esq. Valle Rocoso, Haciendas de San Juan",
+    "dia": "Miércoles",
+    "hora": "9:30 am",
+    "telefono": "427 122 4549",
+    "tel_href": "+524271224549",
+    "maps": null
+  },
+  {
+    "nombre": "Agave",
+    "responsable": "Silvia Pineda",
+    "direccion": "Calle Camino al Carrizo #22, El Agave Azul casa 9, Espíritu Santo",
+    "dia": "Martes",
+    "hora": "6:00 pm",
+    "telefono": "55 3477 7743",
+    "tel_href": "+525534777743",
+    "maps": "https://maps.app.goo.gl/Kks8zFJKP6vByM158"
+  },
+  {
+    "nombre": "Las Águilas",
+    "responsable": "Viry Castro",
+    "direccion": "Águila Blanca 112 casa 20, Col. Las Águilas",
+    "dia": "Martes",
+    "hora": "7:00 pm",
+    "telefono": "442 347 7500",
+    "tel_href": "+524423477500",
+    "maps": "https://maps.app.goo.gl/ve6iavnBKHh2ymHw7"
+  },
+  {
+    "nombre": "Praderas",
+    "responsable": "Susy González",
+    "direccion": "Jacaranda 107-15, Praderas del Sol",
+    "dia": "Jueves",
+    "hora": "9:30 am",
+    "telefono": "427 122 6947",
+    "tel_href": "+524271226947",
+    "maps": "https://maps.app.goo.gl/YHAeM3qcVkQrm5MP6"
+  },
+  {
+    "nombre": "Valle Dorado",
+    "responsable": "Mayra Tejeda",
+    "direccion": "Calle Valle Nevado #101, Col. Valle Dorado 2",
+    "dia": "Jueves",
+    "hora": "9:30 am",
+    "telefono": "427 122 4549",
+    "tel_href": "+524271224549",
+    "maps": "https://maps.app.goo.gl/BFNzwKxRah2Fv9dx8?g_st=aw"
+  },
+  {
+    "nombre": "Asturias",
+    "responsable": "Paulina Polanco",
+    "direccion": "Asturias #3, Paseos del Campestre",
+    "dia": "Jueves",
+    "hora": "10:00 am",
+    "telefono": "427 273 5189",
+    "tel_href": "+524272735189",
+    "maps": "https://maps.app.goo.gl/DFGRH3KgLq3QwuFP7"
+  },
+  {
+    "nombre": "Centro",
+    "responsable": "Erika Vega",
+    "direccion": "José María Arteaga #13, Col. Centro",
+    "dia": "Jueves",
+    "hora": "7:00 pm",
+    "telefono": "427 115 4465",
+    "tel_href": "+524271154465",
+    "maps": "https://maps.app.goo.gl/59YrVqAsdXPwoog26?g_st=aw"
+  },
+  {
+    "nombre": "Jardines",
+    "responsable": "Triny Orozco",
+    "direccion": "Cerrada Jardines #57, Col. Jardines del Pedregal",
+    "dia": "Miércoles",
+    "hora": "5:00 pm",
+    "telefono": "427 273 5124",
+    "tel_href": "+524272735124",
+    "maps": "https://maps.app.goo.gl/L6DcX2WCTVtfoWm46"
+  }
+];
+
+  const chipsEl = document.getElementById('chips');
+  const cardEl = document.getElementById('card');
+  const tabEl = document.getElementById('tab');
+
+  function renderCardContent(c) {
+    const mapsRow = c.maps
+      ? `<div class="cta"><a href="${c.maps}" target="_blank" rel="noopener">Ver en el mapa ↗</a></div>`
+      : `<div class="cta"><span class="muted">Ubicación no disponible en el mapa</span></div>`;
+
+    cardEl.innerHTML = `
+      <h2>${c.nombre}</h2>
+      <div class="row">
+        <div class="icon">👤</div>
+        <div class="text">
+          <span class="label">Responsable</span>
+          <span class="value">${c.responsable}</span>
+        </div>
+      </div>
+      <div class="row">
+        <div class="icon">📍</div>
+        <div class="text">
+          <span class="label">Dirección</span>
+          <span class="value">${c.direccion}</span>
+        </div>
+      </div>
+      <div class="row">
+        <div class="icon">⏱</div>
+        <div class="text">
+          <span class="label">Horario</span>
+          <span class="value">${c.dia}, ${c.hora}</span>
+        </div>
+      </div>
+      <div class="row">
+        <div class="icon">📞</div>
+        <div class="text">
+          <span class="label">Teléfono</span>
+          <span class="value"><a href="tel:${c.tel_href}">${c.telefono}</a></span>
+        </div>
+      </div>
+      ${mapsRow}
+    `;
+    tabEl.textContent = c.nombre.trim().charAt(0).toUpperCase();
+  }
+
+  function selectCelula(index, chipButtons) {
+    const c = celulas[index];
+
+    chipButtons.forEach((btn, i) => {
+      const isActive = i === index;
+      btn.classList.toggle('active', isActive);
+      btn.setAttribute('aria-selected', isActive ? 'true' : 'false');
+    });
+
+    cardEl.classList.add('swap');
+    window.setTimeout(() => {
+      renderCardContent(c);
+      cardEl.classList.remove('swap');
+    }, 140);
+  }
+
+  function init() {
+    const chipButtons = [];
+
+    celulas.forEach((c, i) => {
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'chip';
+      btn.textContent = c.nombre;
+      btn.setAttribute('role', 'option');
+      btn.setAttribute('aria-selected', 'false');
+      btn.addEventListener('click', () => selectCelula(i, chipButtons));
+      chipsEl.appendChild(btn);
+      chipButtons.push(btn);
+    });
+
+    // Mostrar la primera célula por defecto
+    chipButtons[0].classList.add('active');
+    chipButtons[0].setAttribute('aria-selected', 'true');
+    renderCardContent(celulas[0]);
+  }
+
+  init();
+</script>
+</body>
+</html>
